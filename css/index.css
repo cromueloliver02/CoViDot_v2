@@ -1,0 +1,53 @@
+/* NAVBAR */
+#logo {
+	height: 35px;
+}
+#country-select {
+	width: 275px;
+	padding: 0.25rem;
+}
+
+/* SHOWCASE */
+#showcase {
+	background-image: url('/img/showcase.jpg');
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
+	height: 69vh;
+}
+#showcase .dark-overlay {
+	background: rgba(0, 0, 0, 0.65);
+	width: 100%;
+	height: 100%;
+}
+#showcase .container {
+	height: 100%;
+}
+.title {
+	font-size: 3rem;
+}
+
+/* TITLE SECTION */
+.logo-lg {
+	width: 100px;
+}
+
+/* COUNTRY SECTION */
+#country_logo {
+	height: 45px;
+}
+.country-name {
+	font-size: 2.25rem !important;
+}
+.case-icon {
+	font-size: 2.5rem;
+	margin-right: 0.5rem;
+}
+.case-number {
+	font-size: 2rem;
+}
+
+/* WORLD SECTION */
+#world_logo {
+	height: 100px;
+}
