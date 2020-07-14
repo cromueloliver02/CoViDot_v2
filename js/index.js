@@ -3,30 +3,49 @@ const api = new API();
 // INIT UI
 const ui = new UI();
 
+// CHANGE COUNTRY EVENT LISTENER
 document.getElementById('country-select').addEventListener('change', () => {
 	// GET COUNTRY SELECT VALUE
 	const country = document.getElementById('country-select').value;
 
+	// DISPLAY COUNTRY DATA
 	api
 		.getCountryCases(country)
-		.then((casesJSON) => {
-			ui.displayCountryCases(casesJSON, true);
+		.then((datasJSON) => {
+			ui.displayCountryCases(datasJSON, true);
 		})
 		.catch((error) => {
 			console.log(error);
 		});
 
-	// DISPLAY GLOBAL CASES
+	// UPDATE COUNTRY CHART
 	api
-		.getGlobalCases()
-		.then((worldCasesJSON) => {
-			ui.displayWorldCases(worldCasesJSON);
+		.getHistoCountryCases(country)
+		.then((response) => {
+			if (!response.message) {
+				const labels = Object.keys(response.timeline.cases);
+				const cases = Object.values(response.timeline.cases);
+				const deaths = Object.values(response.timeline.deaths);
+				const recovered = Object.values(response.timeline.recovered);
+
+				ui.updateChartData(
+					ui.countryChart,
+					labels,
+					cases,
+					deaths,
+					recovered,
+					country
+				);
+			} else {
+				console.log('Country not found');
+			}
 		})
 		.catch((error) => {
 			console.log(error);
 		});
 });
 
+// LOAD DOM EVENT LISTENER
 document.addEventListener('DOMContentLoaded', () => {
 	// SET COUNTRY SELECTION OF THE COUNTRY SELECT OPTION
 	api
@@ -38,11 +57,11 @@ document.addEventListener('DOMContentLoaded', () => {
 			console.log(error);
 		});
 
-	// SET DEFAULT COUNTRY TO DISPLAY INITIALLY
+	// DISPLAY PHILIPPINE CASES AS DEFAULT COUNTRY
 	api
 		.getCountryCases('Philippines')
-		.then((casesJSON) => {
-			ui.displayCountryCases(casesJSON, false);
+		.then((datasJSON) => {
+			ui.displayCountryCases(datasJSON, false);
 		})
 		.catch((error) => {
 			console.log(error);
@@ -58,10 +77,59 @@ document.addEventListener('DOMContentLoaded', () => {
 			console.log(error);
 		});
 
+	// DISPLAY TEMPLATE CHARTS
+	ui.displayCountryTemplateChart();
+	ui.displayWorldChartTemplate();
+
+	// DISPLAY PHILIPPINE CHART AS DEFAULT CHART
+	api
+		.getHistoCountryCases('Philippines')
+		.then((response) => {
+			if (!response.message) {
+				const labels = Object.keys(response.timeline.cases);
+				const cases = Object.values(response.timeline.cases);
+				const deaths = Object.values(response.timeline.deaths);
+				const recovered = Object.values(response.timeline.recovered);
+
+				ui.updateChartData(
+					ui.countryChart,
+					labels,
+					cases,
+					deaths,
+					recovered,
+					'Philippines'
+				);
+			} else {
+				console.log('Country not found');
+			}
+		})
+		.catch((error) => {
+			console.log(error);
+		});
+
+	// DISPLAY GLOBAL CHART
+	api
+		.getHistoGlobalCases()
+		.then((response) => {
+			if (!response.message) {
+				const labels = Object.keys(response.cases);
+				const cases = Object.values(response.cases);
+				const deaths = Object.values(response.deaths);
+				const recovered = Object.values(response.recovered);
+
+				ui.updateChartData(ui.worldChart, labels, cases, deaths, recovered);
+			} else {
+				console.log('Country not found');
+			}
+		})
+		.catch((error) => {
+			console.log(error);
+		});
+
 	// DISPLAY TIME
 	setInterval(() => {
 		ui.displayTime();
-	}, 1000);
+	}, 500);
 
 	// DISPLAY COPYRIGHT YEAR
 	ui.displayYear();
@@ -119,7 +187,7 @@ setTimeout(() => {
 			countUpWorldLayer2Finished = true;
 		}
 	});
-}, 1000);
+}, 2000);
 
 /* SMOOTH SCROLLING */
 $('#showcase a').on('click', function (event) {
@@ -130,7 +198,7 @@ $('#showcase a').on('click', function (event) {
 
 		$('html, body').animate(
 			{
-				scrollTop: $(hash).offset().top - 70
+				scrollTop: $(hash).offset().top - 130
 			},
 			800
 		);

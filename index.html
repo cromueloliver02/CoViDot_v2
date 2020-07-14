@@ -12,7 +12,8 @@
 			href="https://bootswatch.com/4/solar/bootstrap.min.css"
 		/>
 		<link rel="stylesheet" href="./css/index.css" />
-		<title>CoViD Tracker v2</title>
+		<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+		<title>CoViDot-v2</title>
 	</head>
 	<body>
 		<!-- NAVBAR -->
@@ -38,6 +39,14 @@
 								>Select country:</label
 							>
 							<select class="form-control" id="country-select"></select>
+							<!-- <input class="form-control" id="country-select" list="brow" />
+							<datalist id="brow">
+								<option value="Internet Explorer"> </option>
+								<option value="Firefox"> </option>
+								<option value="Chrome"> </option>
+								<option value="Opera"> </option>
+								<option value="Safari"> </option>
+							</datalist> -->
 						</li>
 						<li class="nav-item d-flex align-items-center">
 							<span id="today"></span>
@@ -50,10 +59,9 @@
 		<header id="showcase">
 			<div class="dark-overlay">
 				<div class="container text-center py-5">
-					<h1 class="display-4 mt-4">
+					<h1 class="display-4 text-white mt-4 showcase-title">
 						Every time you go out, think about the deprived future of these
-						kids.
-						<!-- Don't just go out to deprive the future of these kids. -->
+						little eyes.
 					</h1>
 					<a href="#country-section" class="btn btn-outline-light btn-lg"
 						>See Covid Update</a
@@ -72,15 +80,27 @@
 		<!-- COUNTRY SECTION -->
 		<section id="country-section" class="py-4"></section>
 
+		<div class="mx-5 chart-container">
+			<div class="bg-dark mx-5 px-5">
+				<canvas id="country-chart" class="bg-transparent"></canvas>
+			</div>
+		</div>
+		<!-- /////////////////////////////////// -->
+
 		<!-- WORLD SECTION -->
 		<section id="world-section" class="py-4"></section>
 
+		<div class="mx-5 chart-container">
+			<div class="bg-dark mx-5 px-5">
+				<canvas id="world-chart" class="bg-transparent"></canvas>
+			</div>
+		</div>
+
 		<!-- FOOTER -->
 		<footer id="main-footer" class="py-5">
-			<div class="container">
-				<span class="text-center d-block"
-					>&copy;<span id="year"></span> | Cromuel D. Barut</span
-				>
+			<div class="container text-center">
+				<p>Data source: https://www.worldometers.info/coronavirus/</p>
+				<p>&copy;<span id="year"></span> | Cromuel D. Barut</p>
 			</div>
 		</footer>
 
@@ -101,8 +121,9 @@
 		></script>
 		<script src="./js/countUp.js"></script>
 		<script src="./js/countUp-jquery.js"></script>
-		<script src="./js/ui.js"></script>
 		<script src="./js/api.js"></script>
+		<script src="./js/ui.js"></script>
 		<script src="./js/index.js"></script>
+		<script id="temporal-script"></script>
 	</body>
 </html>
